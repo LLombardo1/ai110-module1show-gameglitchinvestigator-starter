@@ -25,28 +25,27 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [x] The game asks the player to guess a randomly selected number within the selected difficulty range.
+- [x] The original game gave reversed high/low hints, mixed strings and integers while comparing guesses, and did not fully reset state for a new game.
+- [x] The game logic was moved to `logic_utils.py`, comparison and scoring rules were corrected, and new games now reset the secret, score, status, history, and attempts.
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. The player selects Normal difficulty, which uses numbers from 1 to 100 and allows 8 attempts.
+2. The player enters 40 when the secret number is 50 and receives the hint "Too low. Try a higher number."
+3. The player enters 70 and receives the hint "Too high. Try a lower number."
+4. The score decreases by 5 points after each incorrect guess.
+5. The player enters 50, receives a correct message, earns points, and the game ends.
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
 ## 🧪 Test Results
 
 ```
-# Paste your pytest output here, e.g.:
-# pytest tests/
-# ========================= X passed in 0.XXs =========================
+pytest -q
+6 passed in 0.00s
 ```
 
 ## 🚀 Stretch Features
