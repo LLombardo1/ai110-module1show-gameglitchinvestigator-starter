@@ -39,7 +39,7 @@ Describe your fixed game in numbered steps so a reader can follow along without 
 4. The score decreases by 5 points after each incorrect guess.
 5. The player enters 50, receives a correct message, earns points, and the game ends.
 
-**Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
+
 
 ## 🧪 Test Results
 
@@ -48,6 +48,3 @@ pytest -q
 6 passed in 0.00s
 ```
 
-## 🚀 Stretch Features
-
-- [ ] [If you choose to complete Challenge 4, describe the Enhanced UI changes here — a screenshot is optional]
