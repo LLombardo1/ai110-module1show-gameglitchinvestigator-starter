@@ -4,39 +4,66 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 
 ## 1. What was broken when you started?
 
-The original app displayed a number guessing interface with a difficulty selector, score, and developer debug information. A guess higher than the secret showed a message telling the player to go higher, while a lower guess told the player to go lower. On alternating attempts, the app changed the secret value from an integer to a string before comparison, which could make a valid guess fail. Starting a new game also did not reset the score, history, or game status, and it generated a secret from 1 to 100 regardless of the selected difficulty.
+- The game had a difficulty selector, score, and debug information.
+- The high and low hints were backwards.
+- On some attempts, the secret changed from a number to text, so a correct guess could fail.
+- Starting a new game did not reset everything and could use the wrong range.
 
 **Bug Reproduction Log**
 
 Document at least 3 bugs you found. Add rows as needed.
 
-| Input | Expected Behavior | Actual Behavior | Console Output / Error |
-|-------|-------------------|-----------------|------------------------|
-| Guess 60 with secret 50 | "Too High" and a lower-number hint | "Too High" with "Go HIGHER!" | none |
-| Guess 40 with secret 50 | "Too Low" and a higher-number hint | "Too Low" with "Go LOWER!" | none |
-| Guess the displayed secret on an even attempt | The game ends with a win | The secret is converted to a string and the guess does not match | none |
-| Start a new Easy game after scoring | A new 1-20 secret and reset game state | Score and history remain; secret can be outside 1-20 | none |
+- Guess 60 with secret 50
+	- Expected: "Too High" and a lower-number hint.
+	- Actual: "Too High" with "Go HIGHER!"
+	- Console output: none.
+- Guess 40 with secret 50
+	- Expected: "Too Low" and a higher-number hint.
+	- Actual: "Too Low" with "Go LOWER!"
+	- Console output: none.
+- Guess the displayed secret on an even attempt
+	- Expected: The game ends with a win.
+	- Actual: The secret is converted to a string and the guess does not match.
+	- Console output: none.
+- Start a new Easy game after scoring
+	- Expected: A new 1-20 secret and reset game state.
+	- Actual: Score and history remain, and the secret can be outside 1-20.
+	- Console output: none.
 
 ---
 
 ## 2. How did you use AI as a teammate?
 
-I used GitHub Copilot to inspect the relationship between the Streamlit interface and the utility module. Copilot correctly suggested moving the pure game functions into `logic_utils.py` and comparing the integer guess directly with the integer secret. I verified that approach with pytest tests for winning, high, and low guesses. An earlier version of the game converted the secret to a string on alternating attempts; I did not keep that approach because it created a type mismatch and caused valid guesses to fail. I verified the replacement by testing the same numeric comparison on every attempt.
+- I used Claude Code to help set up the project on my Mac and understand the commands I needed to run.
+- I also used it to suggest tests for winning, high, and low guesses.
+- The test suggestions were helpful, but I chose which tests to keep and checked the results myself.
+- I did not use the suggestion to change the secret number into text because it caused correct guesses to fail.
+- I checked the final version by testing the same number comparison every time.
 
 ---
 
 ## 3. Debugging and testing your fixes
 
-I treated a bug as fixed only when the utility function had a predictable result and the app used that function without changing its types. I ran pytest after the refactor and confirmed the expected win, too-high, and too-low outcomes. I also added tests showing that decimal input is rejected and that incorrect guesses reduce the score while a win awards points. Copilot helped identify focused regression cases, but I checked that each expected result matched the game rules. Manual play can then confirm the same behavior in the Streamlit interface.
+- I considered a bug fixed when the game logic gave the expected result every time.
+- I ran pytest to check win, too-high, and too-low guesses.
+- I also tested invalid decimal input and score changes after guesses.
+- Claude Code helped suggest test cases, but I checked that the results matched the game rules.
+- I can also play the Streamlit game to confirm the same behavior.
 
 ---
 
 ## 4. What did you learn about Streamlit and state?
 
-Streamlit reruns the script from top to bottom whenever a user interacts with a widget. Regular local variables are therefore recreated on every interaction. `st.session_state` keeps values such as the secret number, attempt count, score, and status between reruns. A new game must update all related state values together so the next rerun starts from a consistent game state.
+- Streamlit runs the script again whenever a user clicks or enters something.
+- Regular variables reset during each run.
+- `st.session_state` saves the secret number, attempts, score, and status between runs.
+- A new game needs to reset all of those values together.
 
 ---
 
 ## 5. Looking ahead: your developer habits
 
-I want to keep writing a small regression test whenever I repair a bug. Next time, I will inspect types and state transitions before accepting generated code, especially when an app reruns after user input. This project showed me that AI-generated code still needs clear rules, targeted tests, and human review. AI can speed up investigation, but I am responsible for deciding whether the behavior is correct.
+- I will write a small test whenever I fix a bug.
+- Next time, I will check data types and state changes before accepting AI code.
+- AI-generated code still needs clear rules, tests, and human review.
+- AI helped me get set up and understand the project
